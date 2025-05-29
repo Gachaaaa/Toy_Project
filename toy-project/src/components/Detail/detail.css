@@ -168,3 +168,14 @@
 .review-but:hover {
   background-color: #0056b3;
 }
+
+.gacha-gif {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  transform: translateY(-40px); 
+  max-height: 400px; 
+}
+

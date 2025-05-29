@@ -12,9 +12,12 @@ function DetailPageTemplate({ image, title, price, shipping, point, description,
     navigate(`/detail/${productId}/review`);
   };
 
+  const handleBuy = () => {
+    navigate(`/delivery/${productId}`); // ✅ 배송지 입력 페이지로 이동
+  };
+
   return (
     <div className="detail-page2">
-
       {/* 상단 - 메인 이미지 및 가격/배송 정보 */}
       <div className="top-section">
         <img src={image} alt={title} className="detail-image" />
@@ -27,7 +30,7 @@ function DetailPageTemplate({ image, title, price, shipping, point, description,
             (30000원 이상 구매 시 무료배송)<br />
             도서/산간지역은 추가 배송비가 발생할 수 있습니다.)
           </p>
-          <button className="buy-btn">BUY</button>
+          <button className="buy-btn" onClick={handleBuy}>BUY</button>
           <button className="cart-btn">Add to cart</button>
         </div>
       </div>
@@ -80,9 +83,9 @@ function DetailPageTemplate({ image, title, price, shipping, point, description,
           ))}
         </div>
       </div>
-      
     </div>
   );
 }
 
 export default DetailPageTemplate;
+

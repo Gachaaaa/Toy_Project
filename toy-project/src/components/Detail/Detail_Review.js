@@ -3,9 +3,10 @@ import '../Login.css';
 
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
 
 export default function ReviewFormPage() {
-  const { productId } = useParams();
+  const { productId } = useParams();  // gacha_id
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -15,11 +16,31 @@ export default function ReviewFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const accessToken = localStorage.getItem('token');  // ✅ 토큰 불러오기
+
+    if (!accessToken) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+      return;
+    }
+
     try {
+      const reviewText = `제목: ${title}\n별점: ${rating}점\n내용: ${content}`;
+
+      await axios.post('http://localhost:8000/gachareview/', {
+        gacha_id: Number(productId),
+        review: reviewText,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,  // ✅ 여기 추가!
+        },
+      });
+
       alert('리뷰가 등록되었습니다!');
       navigate(`/detail/${productId}`);
     } catch (error) {
-      console.error('리뷰 등록 실패:', error);
+      console.error('리뷰 등록 실패:', error.response?.data || error.message);
       alert('리뷰 등록에 실패했습니다.');
     }
   };
